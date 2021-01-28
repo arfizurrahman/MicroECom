@@ -66,6 +66,11 @@ namespace Catalog.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API V1");
+                });
             }
 
             app.UseRouting();
@@ -77,11 +82,6 @@ namespace Catalog.API
                 endpoints.MapControllers();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API V1");
-            });
         }
     }
 }
