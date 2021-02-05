@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Basket.API.Entities;
 using Basket.API.Repositories.Interfaces;
+using EventBusRabbitMQ.Common;
 using EventBusRabbitMQ.Events;
+using EventBusRabbitMQ.Producer;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -14,10 +17,12 @@ namespace Basket.API.Controllers
     {
         private readonly IBasketRepository _repository;
         private readonly IMapper _mapper;
-        public BasketController(IBasketRepository repository, IMapper mapper)
+        private readonly EventBusRabbitMQProducer _eventBus;
+        public BasketController(IBasketRepository repository, IMapper mapper, EventBusRabbitMQProducer eventBus)
         {
             _repository = repository;
             _mapper = mapper;
+            _eventBus = eventBus;
         }
 
         [HttpGet]
@@ -63,6 +68,20 @@ namespace Basket.API.Controllers
             }
 
             var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMessage.RequestId = Guid.NewGuid();
+            eventMessage.TotalPrice = basket.TotalPrice;
+
+            try
+            {
+                _eventBus.PublishBasketCheckout(EventBusConstants.BasketCheckoutQueue, eventMessage);
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "ERROR Publishing integration event: {EventId} from {AppName}", eventMessage.RequestId, "Basket");
+                throw;
+            }
+
+            return Accepted();
         }
     }
 }
