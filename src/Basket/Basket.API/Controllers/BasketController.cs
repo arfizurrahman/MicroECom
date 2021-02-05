@@ -37,5 +37,26 @@ namespace Basket.API.Controllers
         {
             return Ok(await _repository.DeleteBasket(userName));
         }
+
+        //[Route("[action]")]
+        //[HttpPost]
+        //[ProducesResponseType((int)HttpStatusCode.Accepted)]
+        //[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> Checkout(BasketCheckout basketCheckout)
+        //{
+        //    var basket = await _repository.GetBasket(basketCheckout.UserName);
+        //    if (basket == null)
+        //    {
+        //        //_logger.LogError("Basket not exist with this user : {EventId}", basketCheckout.UserName);
+        //        return BadRequest();
+        //    }
+
+        //    var basketRemoved = await _repository.DeleteBasket(basketCheckout.UserName);
+        //    if (!basketRemoved)
+        //    {
+        //        //_logger.LogError("Basket can not deleted");
+        //        return BadRequest();
+        //    }
+        //}
     }
 }
