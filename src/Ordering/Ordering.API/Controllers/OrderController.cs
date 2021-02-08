@@ -10,9 +10,9 @@ namespace Ordering.API.Controllers
     [Route("[controller]")]
     public class OrderController : ControllerBase
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
     }
 }
