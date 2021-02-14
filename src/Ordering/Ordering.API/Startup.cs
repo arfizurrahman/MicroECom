@@ -49,10 +49,8 @@ namespace Ordering.API
             services.AddScoped(typeof(IOrderRepository), typeof(OrderRepository));
             services.AddTransient<IOrderRepository, OrderRepository>(); // we made transient this in order to resolve in mediatR when consuming Rabbit
 
-            // Add AutoMapper
             services.AddAutoMapper(typeof(Startup));
 
-            // Add MediatR
             services.AddMediatR(typeof(CheckoutOrderHandler).GetTypeInfo().Assembly);
 
             #endregion
