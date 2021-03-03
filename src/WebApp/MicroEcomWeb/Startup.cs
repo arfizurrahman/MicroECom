@@ -1,11 +1,12 @@
-using MicroEcomWeb.Data;
-using MicroEcomWeb.Repositories;
+using MicroEcomWeb.ApiCollection;
+using MicroEcomWeb.ApiCollection.Interfaces;
+using MicroEcomWeb.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace MicroEcomWeb
 {
@@ -21,29 +22,16 @@ namespace MicroEcomWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            #region database services
+            services.Configure<ApiSettings>(Configuration.GetSection(nameof(ApiSettings)));
+            services.AddSingleton<IApiSettings>(sp => sp.GetRequiredService<IOptions<ApiSettings>>().Value);
 
-            //// use in-memory database
-            //services.AddDbContext<AspnetRunContext>(c =>
-            //    c.UseInMemoryDatabase("AspnetRunConnection"));
+            services.AddHttpClient();
 
-            // add database dependecy
-            services.AddDbContext<AspnetRunContext>(c =>
-                c.UseSqlServer(Configuration.GetConnectionString("AspnetRunConnection")));
+            services.AddTransient<ICatalogApi, CatalogApi>();
+            services.AddTransient<IBasketApi, BasketApi>();
+            services.AddTransient<IOrderApi, OrderApi>();
 
-            #endregion            
-
-            #region project services
-
-            // add repository dependecy
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<ICartRepository, CartRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IContactRepository, ContactRepository>();
-
-            #endregion
-
-            services.AddRazorPages().AddRazorRuntimeCompilation(); ;
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -37,3 +37,9 @@ services:
             context: .
             dockerfile: src/APIGateway/OcelotAPIGateway/Dockerfile
 
+    microecomweb:
+        image: ${DOCKER_REGISTRY-}microecomweb
+        build:
+          context: .
+          dockerfile: src/WebApp/MicroEcomWeb/Dockerfile
+

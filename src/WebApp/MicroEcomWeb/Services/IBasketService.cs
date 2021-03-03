@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MicroEcomWeb.ApiCollection.Interfaces
+namespace MicroEcomWeb.Services
 {
-    public interface IBasketApi
+    public interface IBasketService
     {
         Task<BasketModel> GetBasket(string userName);
         Task<BasketModel> UpdateBasket(BasketModel model);

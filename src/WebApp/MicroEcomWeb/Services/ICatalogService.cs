@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MicroEcomWeb.ApiCollection.Interfaces
+namespace MicroEcomWeb.Services
 {
-    public interface ICatalogApi
+    public interface ICatalogService
     {
         Task<IEnumerable<CatalogModel>> GetCatalog();
         Task<IEnumerable<CatalogModel>> GetCatalogByCategory(string category);

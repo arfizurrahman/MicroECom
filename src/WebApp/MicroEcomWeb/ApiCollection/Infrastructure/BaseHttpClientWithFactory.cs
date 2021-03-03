@@ -36,7 +36,6 @@ namespace MicroEcomWeb.ApiCollection.Infrastructure
             // Make JSON the default
             return new List<MediaTypeFormatter> { new JsonMediaTypeFormatter() };
         }
-        //public abstract HttpRequestBuilder GetHttpRequestBuilder(string path);
     }
 
 }
